@@ -53,7 +53,6 @@ AudinoMix is a versatile and user-friendly project that allows you to control th
 ## Future Plans
 
 - **Add Button Support**: Integrate buttons for muting the microphone or application audio.
-- **Multi-Application Control**: Allow a single potentiometer to control multiple applications.
 
 ## Contributing
 
