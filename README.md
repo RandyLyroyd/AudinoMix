@@ -45,10 +45,10 @@ AudinoMix is a versatile and user-friendly project that allows you to control th
 ## Screenshots
 
 - **Tray Icon and Functions**:
-  (Add screenshots here)
+   ![TrayIcon](https://github.com/RandyLyroyd/AudinoMix/assets/51125549/605f57e8-ac22-435b-b555-f9f151fc5698)
 
 - **Connection Schematic**:
-  (Add schematic here)
+  TODO: Add schematic
 
 ## Future Plans
 
@@ -61,4 +61,4 @@ Feel free to fork this repository, create new features, fix bugs, or improve doc
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the LICENCE file for more details.
