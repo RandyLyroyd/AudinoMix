@@ -28,10 +28,14 @@ AudinoMix is a versatile and user-friendly project that allows you to control th
 2. **Python Script**:
    - Clone this repository to your local machine.
    - Ensure Python is installed.
+   - Ensure that you are in the right directory:
      ```bash
      cd .\Application\
      ```
    - Run the main Python script to start the application.
+     ```bash
+     python main.py
+     ```
 
 ## How It Works
 
