@@ -1,5 +1,9 @@
+"""
+Author: Arne Röskens
+Date: 21.05.2024
+"""
 import pickle
-from Slider import Slider, SliderType
+from Slider import Slider
 
 def load_saved_sliders(num_sliders: int) -> list:
     loaded_sliders = []

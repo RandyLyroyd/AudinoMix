@@ -1,3 +1,7 @@
+"""
+Author: Arne Röskens
+Date: 21.05.2024
+"""
 from enum import Enum
 
 class SliderType(Enum):

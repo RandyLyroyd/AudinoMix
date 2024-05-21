@@ -1,3 +1,7 @@
+"""
+Author: Arne Röskens
+Date: 21.05.2024
+"""
 from pystray import Icon as icon, Menu as menu, MenuItem as item
 from PIL import Image
 

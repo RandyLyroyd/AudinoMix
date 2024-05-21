@@ -1,4 +1,8 @@
-from Slider import Slider, SliderType, Item
+"""
+Author: Arne Röskens
+Date: 21.05.2024
+"""
+from Slider import Slider
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume, ISimpleAudioVolume

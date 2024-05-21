@@ -1,7 +1,11 @@
+"""
+Author: Arne Röskens
+Date: 21.05.2024
+"""
 from PIL import Image
 from pystray import Icon, Menu, MenuItem
 from VolumeHandler import get_current_sessions
-from Slider import Slider, SliderType, Item
+from Slider import Slider, Item
 import IoHandler
 
 class IconHandler:
