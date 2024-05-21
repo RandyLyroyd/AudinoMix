@@ -21,4 +21,4 @@ Contributions to AudinoMix are welcome! If you have ideas for improvements or ne
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the LICENSE file for details.
