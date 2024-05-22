@@ -21,7 +21,7 @@ def set_volume(value: float, slider: Slider):
     sessions = get_current_sessions()
     for session in sessions:
         for item in slider.slider_items:
-            if session.Process and item.checked and session.Process.name() == item.application:
+            if session.Process and item.checked and session.ProcessId == item.process_id:
                 application_volume = session._ctl.QueryInterface(ISimpleAudioVolume)
                 application_volume.SetMasterVolume(volume, None)
 

@@ -13,13 +13,18 @@ class IconHandler:
     menu = []
     exit = None
     update = None
-    def init_icon(self, sliders: list, exit, update):
+    running = False
+    icon = None
+
+    def init_icon(self, sliders: list, exit, update, name="AudinoMix"):
         self.slider_list = sliders
         self.exit = exit
         self.update = update
         image = Image.open("icon.png")
         self.menu = self.get_menu()
-        return Icon("Icon", image, "VolumeControl", menu = self.menu)
+        self.running = True
+        self.icon = Icon(name, image, name, menu = self.menu)
+        return self.icon
 
     def get_menu(self):
         menu = []
@@ -40,14 +45,15 @@ class IconHandler:
             return
         slider: Slider = self.get_slider_by_name(menu_item.text)
         self.toggle_item_containing_in_slider(slider, item.text)
+        print("Toggled " + item.text + " at " + menu_item.text)
         IoHandler.save_sliders(self.slider_list)
     
-    def does_slider_contain_item(self, slider: Slider, application_name: str) -> True:
+    def does_slider_contain_item(self, slider: Slider, application_name: str, process_id: int) -> True:
         if not slider.slider_items:
             slider.slider_items = [Item(application='master', checked=False)]
             return False
         for i in range(len(slider.slider_items)):
-            if slider.slider_items[i].application == application_name:
+            if slider.slider_items[i].application == application_name and slider.slider_items[i].process_id == process_id:
                 return i
         return False
     
@@ -62,11 +68,22 @@ class IconHandler:
         slider_menu_items.append(MenuItem('master', action=self.on_clicked, checked=lambda item: slider.slider_items[0].checked))
         for session in sessions:
             if session.Process:
-                index = self.does_slider_contain_item(slider, session.Process.name())
+                index = self.does_slider_contain_item(slider, session.Process.name(), session.ProcessId)
                 if not index:
-                    slider.slider_items.append(Item(application=session.Process.name(), checked=False))
+                    slider.slider_items.append(Item(application=session.Process.name(), checked=False, process_id=session.ProcessId))
                 slider_menu_items.append(MenuItem(session.Process.name(), self.on_clicked, checked=lambda item, i=index: slider.slider_items[i].checked))
         return Menu(*slider_menu_items)
+    
+    def stop(self):
+        if self.running:
+            self.icon.stop()
+            self.running = False
+
+    def update_menu(self, sliders: list):
+        if self.icon is not None:
+            self.slider_list = sliders
+            self.menu = self.get_menu()
+            self.icon.menu = self.menu
     
 
 

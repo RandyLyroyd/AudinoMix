@@ -16,8 +16,10 @@ class Slider:
     slider_items: list
 
 class Item:
-    def __init__(self, application, checked):
+    def __init__(self, application, checked, process_id=0):
         self.application = application
         self.checked = checked
+        self.process_id = process_id
     application: str
+    process_id: int
     checked: bool = False

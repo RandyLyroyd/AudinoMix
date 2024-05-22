@@ -9,7 +9,7 @@ from IconHandler import IconHandler
 import IoHandler
 
 class Main:
-    num_sliders = 2
+    num_sliders = 5
     ser = serial.Serial(
         port='COM3',
         baudrate=9600,
@@ -31,12 +31,13 @@ class Main:
 
     def exit(self):
         self.running = False
-        self.icon.stop()
+        self.icon_handler.stop()
 
-    def update(self):
-        self.icon.stop()
-        self.icon = self.icon_handler.init_icon(sliders=self.sliders, exit=self.exit, update=self.update)
-        self.icon.run()
+    def refresh_tray(self):
+        print("\t-- Refreshing... --")
+        self.sliders = IoHandler.load_saved_sliders(num_sliders=self.num_sliders)
+        self.icon_handler.update_menu(sliders=self.sliders)
+        print("\t-- Refreshed AudinoMix --")
 
     def start(self):
         while self.running:
@@ -48,10 +49,11 @@ class Main:
                 
                 if not self.started:
                     self.sliders = IoHandler.load_saved_sliders(num_sliders=self.num_sliders)
-                    self.icon = self.icon_handler.init_icon(sliders=self.sliders, exit=self.exit, update=self.update)
+                    self.icon = self.icon_handler.init_icon(sliders=self.sliders, exit=self.exit, update=self.refresh_tray)
                     self.icon_thread = threading.Thread(target=self.icon.run)
                     self.icon_thread.start()
                     self.started = True
+                    print("\t-- Started AudinoMix --")
                     continue
                 
                 for i in range(len(self.sliders)):
@@ -61,7 +63,6 @@ class Main:
                     
             except KeyboardInterrupt:
                 break
-        
         self.ser.close()
 
 main = Main()

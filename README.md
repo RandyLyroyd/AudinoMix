@@ -28,6 +28,13 @@ AudinoMix is a versatile and user-friendly project that allows you to control th
 2. **Python Script**:
    - Clone this repository to your local machine.
    - Ensure Python is installed.
+   ```bash
+   python
+   ```
+   - Also ensure that you have serial, comtypes, pycaw, pystray and pyserial installed.
+   ```
+   pip install serial comtypes pycaw pystray pyserial
+   ```
    - Ensure that you are in the right directory:
      ```bash
      cd .\Application\
