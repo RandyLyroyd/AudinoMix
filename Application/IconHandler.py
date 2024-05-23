@@ -57,21 +57,24 @@ class IconHandler:
                 return i
         return False
     
-    def toggle_item_containing_in_slider(self, slider: Slider, application_name: str) -> True:
+    def toggle_item_containing_in_slider(self, slider: Slider, application_text: str) -> True:
+        name_id = remove_after_backslash(application_text)
+        application_text = name_id[0]
+        process_id = int(remove_brackets(name_id[1]))
         for slider_item in slider.slider_items:
-            if slider_item.application == application_name:
+            if slider_item.application == application_text and slider_item.process_id == process_id:
                 slider_item.checked = not slider_item.checked
 
     def create_menu_for_slider(self, slider: Slider = None):
         sessions = get_current_sessions()
         slider_menu_items = []
-        slider_menu_items.append(MenuItem('master', action=self.on_clicked, checked=lambda item: slider.slider_items[0].checked))
+        slider_menu_items.append(MenuItem('master\x08[0]', action=self.on_clicked, checked=lambda item: slider.slider_items[0].checked))
         for session in sessions:
             if session.Process:
                 index = self.does_slider_contain_item(slider, session.Process.name(), session.ProcessId)
                 if not index:
                     slider.slider_items.append(Item(application=session.Process.name(), checked=False, process_id=session.ProcessId))
-                slider_menu_items.append(MenuItem(session.Process.name(), self.on_clicked, checked=lambda item, i=index: slider.slider_items[i].checked))
+                slider_menu_items.append(MenuItem(f"{session.Process.name()}\b[{session.ProcessId}]", self.on_clicked, checked=lambda item, i=index: slider.slider_items[i].checked))
         return Menu(*slider_menu_items)
     
     def stop(self):
@@ -86,7 +89,11 @@ class IconHandler:
             self.icon.menu = self.menu
     
 
+def remove_after_backslash(s):
+    return s.split('\x08')
 
+def remove_brackets(s):
+    return s.replace('[', '').replace(']', '')
 
 def get_clicked_menu_item(icon, item):
     for parent_item in icon.menu:
