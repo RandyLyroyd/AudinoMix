@@ -1,6 +1,6 @@
 """
 Author: Arne Röskens
-Date: 21.05.2024
+Date: 27.05.2024
 """
 from Slider import Slider
 from ctypes import cast, POINTER
@@ -20,7 +20,7 @@ def set_volume(value: float, slider: Slider):
         master_volume.SetMasterVolumeLevelScalar(volume, None)
     for item in slider.slider_items:
         session = AudioUtilities.GetProcessSession(item.process_id)
-        if session.Process and item.checked and session.ProcessId == item.process_id:
+        if session.Process and item.checked and session.Identifier == item.identifier:
             application_volume = session._ctl.QueryInterface(ISimpleAudioVolume)
             application_volume.SetMasterVolume(volume, None)
 

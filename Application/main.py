@@ -1,6 +1,6 @@
 """
 Author: Arne Röskens
-Date: 21.05.2024
+Date: 27.05.2024
 """
 import serial
 import VolumeHandler
@@ -9,7 +9,7 @@ from IconHandler import IconHandler
 import IoHandler
 
 class Main:
-    num_sliders = 5
+    num_sliders = 2
     ser = serial.Serial(
         port='COM3',
         baudrate=9600,

@@ -1,6 +1,6 @@
 """
 Author: Arne Röskens
-Date: 21.05.2024
+Date: 27.05.2024
 """
 from PIL import Image
 from pystray import Icon, Menu, MenuItem
@@ -48,12 +48,12 @@ class IconHandler:
         print("Toggled " + item.text + " at " + menu_item.text)
         IoHandler.save_sliders(self.slider_list)
     
-    def does_slider_contain_item(self, slider: Slider, application_name: str, process_id: int) -> True:
+    def does_slider_contain_item(self, slider: Slider, application_name: str, identifier: int) -> True:
         if not slider.slider_items:
             slider.slider_items = [Item(application='master', checked=False)]
             return False
         for i in range(len(slider.slider_items)):
-            if slider.slider_items[i].application == application_name and slider.slider_items[i].process_id == process_id:
+            if slider.slider_items[i].application == application_name and slider.slider_items[i].identifier == identifier:
                 return i
         return False
     
@@ -62,8 +62,9 @@ class IconHandler:
         application_text = name_id[0]
         process_id = int(remove_brackets(name_id[1]))
         for slider_item in slider.slider_items:
-            if slider_item.application == application_text and slider_item.process_id == process_id:
+            if application_text == 'master' or (slider_item.application == application_text and slider_item.process_id == process_id):
                 slider_item.checked = not slider_item.checked
+                return
 
     def create_menu_for_slider(self, slider: Slider = None):
         sessions = get_current_sessions()
@@ -71,9 +72,10 @@ class IconHandler:
         slider_menu_items.append(MenuItem('master\x08[0]', action=self.on_clicked, checked=lambda item: slider.slider_items[0].checked))
         for session in sessions:
             if session.Process:
-                index = self.does_slider_contain_item(slider, session.Process.name(), session.ProcessId)
+                index = self.does_slider_contain_item(slider, session.Process.name(), session.Identifier)
                 if not index:
-                    slider.slider_items.append(Item(application=session.Process.name(), checked=False, process_id=session.ProcessId))
+                    slider.slider_items.append(Item(application=session.Process.name(), checked=False, process_id=session.ProcessId, identifier=session.Identifier))
+                slider.slider_items[index].process_id = session.ProcessId
                 slider_menu_items.append(MenuItem(f"{session.Process.name()}\b[{session.ProcessId}]", self.on_clicked, checked=lambda item, i=index: slider.slider_items[i].checked))
         return Menu(*slider_menu_items)
     
@@ -101,4 +103,3 @@ def get_clicked_menu_item(icon, item):
             for submenu_item in parent_item.submenu.items:
                 if submenu_item == item:
                     return parent_item
-

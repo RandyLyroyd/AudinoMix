@@ -1,6 +1,6 @@
 """
 Author: Arne Röskens
-Date: 21.05.2024
+Date: 27.05.2024
 """
 from enum import Enum
 
@@ -16,10 +16,12 @@ class Slider:
     slider_items: list
 
 class Item:
-    def __init__(self, application, checked, process_id=0):
+    def __init__(self, application, checked, identifier="", process_id=0):
         self.application = application
         self.checked = checked
         self.process_id = process_id
+        self.identifier = identifier
     application: str
     process_id: int
+    identifier: str
     checked: bool = False
