@@ -1,7 +1,8 @@
 """
 Author: Arne Röskens
-Date: 27.05.2024
+Date: 28.05.2024
 """
+import signal
 import serial
 import VolumeHandler
 import threading
@@ -28,6 +29,13 @@ class Main:
     running = True
 
     icon = None
+
+    def __init__(self):
+        signal.signal(signal.SIGINT, self.signal_handler)
+        signal.signal(signal.SIGTERM, self.signal_handler)
+
+    def signal_handler(self, signal_received, frame):
+        self.exit()
 
     def exit(self):
         self.running = False
@@ -62,6 +70,12 @@ class Main:
                     VolumeHandler.set_volume(float(values[i]), self.sliders[i])
                     
             except KeyboardInterrupt:
+                break
+            except serial.SerialException as e:
+                print(f"Serial error: {e}")
+                break
+            except Exception as e:
+                print(f"Error: {e}")
                 break
         self.ser.close()
 
