@@ -70,7 +70,15 @@ AudinoMix is a versatile and user-friendly project that allows you to control th
 
 ## Contributing
 
-Feel free to fork this repository, create new features, fix bugs, or improve documentation. Pull requests are welcome!
+We welcome contributions to AudinoMix! Please follow these guidelines:
+
+1. **Fork the repository**: Create your own fork of the repository.
+2. **Create a new branch**: Use `git checkout -b feature-name` to create a new branch for your feature or bugfix.
+3. **Commit your changes**: Make sure your changes are well-documented and clean.
+4. **Push to your branch**: Use `git push origin feature-name`.
+5. **Create a Pull Request**: Go to the original repository and create a pull request. Provide a clear description of your changes and why they are necessary.
+
+All contributions must be made via pull requests. Direct commits to the `main` branch are not allowed.
 
 ## License
 
