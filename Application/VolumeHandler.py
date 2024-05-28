@@ -16,11 +16,14 @@ def set_volume(value: float, slider: Slider):
         return
     slider.value = value 
     volume = value / 1023
-    if slider.slider_items[0].checked:
-        master_volume.SetMasterVolumeLevelScalar(volume, None)
     for item in slider.slider_items:
+        if not item.checked:
+            return
+        if item.application == 'master':
+            master_volume.SetMasterVolumeLevelScalar(volume, None)
+            return
         session = AudioUtilities.GetProcessSession(item.process_id)
-        if session.Process and item.checked and session.Identifier == item.identifier:
+        if session.Process and session.Identifier == item.identifier:
             application_volume = session._ctl.QueryInterface(ISimpleAudioVolume)
             application_volume.SetMasterVolume(volume, None)
 
