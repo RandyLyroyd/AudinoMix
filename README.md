@@ -31,9 +31,9 @@ AudinoMix is a versatile and user-friendly project that allows you to control th
    ```bash
    python
    ```
-   - Also ensure that you have serial, comtypes, pycaw, pystray and pyserial installed.
+   - Also ensure that you have serial, comtypes, pycaw, keyboard, pystray and pyserial installed.
    ```
-   pip install serial comtypes pycaw pystray pyserial
+   pip install serial comtypes pycaw keyboard pystray pyserial
    ```
    - Ensure that you are in the right directory:
      ```bash

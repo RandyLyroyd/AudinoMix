@@ -4,6 +4,7 @@ Date: 28.05.2024
 """
 import signal
 import serial
+import keyboard
 import VolumeHandler
 import threading
 from IconHandler import IconHandler
@@ -47,21 +48,38 @@ class Main:
         self.icon_handler.update_menu(sliders=self.sliders)
         print("\t-- Refreshed AudinoMix --")
 
+    def button_pressed(self):
+        keyboard.press('ctrl')
+        keyboard.press('shift')
+        keyboard.press('m')
+        keyboard.release('m')
+        keyboard.release('shift')
+        keyboard.release('ctrl')
+
+    def start_application(self):
+        self.sliders = IoHandler.load_saved_sliders(num_sliders=self.num_sliders)
+        self.icon = self.icon_handler.init_icon(sliders=self.sliders, exit=self.exit, update=self.refresh_tray)
+        self.icon_thread = threading.Thread(target=self.icon.run)
+        self.icon_thread.start()
+        self.started = True
+        print("\t-- Started AudinoMix --")
+
     def start(self):
         while self.running:
             try:
                 line = self.ser.readline()
                 decoded = line.decode('utf-8')
                 data = decoded.strip()
+                if data == 'Button':
+                    self.button_pressed()
+                    continue
                 values = data.split('|')
                 
+                if keyboard.is_pressed('ctrl') and keyboard.is_pressed('c'):
+                    return
+
                 if not self.started:
-                    self.sliders = IoHandler.load_saved_sliders(num_sliders=self.num_sliders)
-                    self.icon = self.icon_handler.init_icon(sliders=self.sliders, exit=self.exit, update=self.refresh_tray)
-                    self.icon_thread = threading.Thread(target=self.icon.run)
-                    self.icon_thread.start()
-                    self.started = True
-                    print("\t-- Started AudinoMix --")
+                    self.start_application()
                     continue
                 
                 for i in range(len(self.sliders)):
